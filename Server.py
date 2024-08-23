@@ -3,15 +3,18 @@ import pandas as pd
 import requests  # If needed for web scraping
 from bs4 import BeautifulSoup  # If needed for parsing HTML content
 
+from flask_cors import CORS
 app = Flask(__name__)
 
 # Load Excel file for the data
-file_path = "E:/Downloads_NEW/werticle_data.xlsx"
+file_path = "./DA/werticle_data.xlsx"
 news_patent_df = pd.read_excel(file_path)
 
 from flask import Flask, jsonify
 
 app = Flask(__name__)
+cors = CORS(app)
+
 
 ### 첫번째 API
 @app.route('/api/main_news', methods=['GET'])
@@ -49,9 +52,6 @@ def get_main_news():
 
     return jsonify(news_data)
 
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)  # 포트 설정
-
 
 ### 두번째 api
 @app.route('/api/all_news', methods=['GET'])
@@ -72,10 +72,6 @@ def get_all_news():
 
     # JSON 응답
     return jsonify(news_list)
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
 
 
 ### 세번째 api
@@ -134,10 +130,5 @@ def analyze_article():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
-
-
-
-
-
+    app.run(host='0.0.0.0', port=8080)
 
